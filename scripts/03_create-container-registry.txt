@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Create container registry
+# acr name should be [A-Za-z0-9]
+solname_acr=$(echo $solname | sed 's/[-_!@#$%^&*]//g')
+az acr create -n $solname_acr -g $solname --admin-enabled true --sku Basic

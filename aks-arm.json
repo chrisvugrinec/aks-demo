@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "azureuser" },
+    "sshPublicKey": {
+      "type": "string"
+    "virtualMachineSize": {
+      "type": "string",
+      "defaultValue": "Standard_DS2_v2"},
+    "principalClientId": {
+      "type": "string"},
+    "principalClientSecret": {
+      "type": "string"}
+  },
+  "variables": {
+    "aksName": "cvugrinec-aks",
+    "kubernetesVersion": "1.8.2",
+    "aksDnsPrefix": "[concat('aks', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2017-08-31",
+      "type": "Microsoft.ContainerService/managedClusters",
+      "location": "westeurope",
+      "name": "[variables('aksName')]",
+      "properties": {
+        "kubernetesVersion": "[variables('kubernetesVersion')]",
+        "dnsPrefix": "[variables('aksDnsPrefix')]",
+        "agentPoolProfiles": [
+          {
+            "name": "agentpool",
+            "count": 2,
+            "vmSize": "[parameters('virtualMachineSize')]",
+            "osType": "Linux",
+            "storageProfile": "ManagedDisks"
+          }
+        ],
+        "linuxProfile": {
+          "adminUsername": "[parameters('adminUsername')]",
+          "ssh": {
+            "publicKeys": [
+              {
+                "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                "keyData": "[parameters('sshPublicKey')]"
+              }
+            ]
+          }
+        },
+        "servicePrincipalProfile": {
+          "ClientId": "[parameters('principalClientId')]",
+          "Secret": "[parameters('principalClientSecret')]"
+        }
+      }
+    }
+   ]
+}

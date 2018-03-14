@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sub=$(az account show --query id)
+
+az ad sp create-for-rbac -n $solname --role="Contributor" --scopes=/subscriptions/$sub/resourceGroups/$solname --password=$password
+az role assignment create --scope /subscriptions/$sub/resourceGroups/$solname --role Contributor --assignee http://$solname
+

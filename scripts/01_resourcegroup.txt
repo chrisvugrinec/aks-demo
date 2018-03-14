@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Create the required resourcegroups       
+az group create -n $solname -l $location   

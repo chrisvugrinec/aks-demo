@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Create Managed Kubernetes               
+az aks create -g $solname -n $solname --service-principal http://$solname --client-secret $password --kubernetes-version 1.8.2

@@ -1,0 +1,10 @@
+
+mvn archetype:generate -Dfilter=org.springframework.boot:spring-boot-sample-jetty-archetype
+
+create project in VSTS
+create build
+create release
+
+create a secret
+
+kubectl create secret docker-registry chrissecret --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL

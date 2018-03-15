@@ -1,0 +1,6 @@
+from azure-voting-app
+kubectl create -f all_in_one.yaml 
+
+Autoscale....show heapster..
+kubectl autoscale deployment azure-vote-front --cpu-percent=50 --min=1 --max=10
+kubectl autoscale deployment azure-vote-back --cpu-percent=50 --min=1 --max=10

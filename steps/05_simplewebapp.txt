@@ -1,0 +1,30 @@
+# START JAVA/ DOCKER
+01 mvn archetype:generate -Dfilter=org.springframework.boot:spring-boot-sample-jetty-archetype
+02 mvn clean package   (java -jar target/ )
+03 copy Dockerfile from github/   simplewebapp folder
+04 docker build -t test:1.0 .
+05 docker run -p 8080:8080 test:1.0  (check on localhost:8080)
+
+# KUBE
+06 create secret: kubectl create secret docker-registry chrissecret --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL 
+07 copy simplewebapp-kube.yaml from github/ simplewebapp folder
+08 deploy to kubernetes to test:  kubectl create -f simplewebapp-kube.yaml
+
+# VSTS
+09 create project in VSTS
+10 create maven build
+11 create release  (shell /usr/local/bin/kubectl run demoapp --image unit4demo2.azurecr.io/unit4-demo:65)...kubeplugin contains error
+
+# DRAFT...doing it all for you
+12 helm init
+13 draft init --ingress-enabled
+14 draft create --app simplewebapp
+15 draft up
+
+use the az acr credential and az acr list -o table to view the registry details...needed for init draft
+
+# INGRESS
+16 Install ingress controller with HELM:   helm install stable/nginx-ingress
+17 kubectl edit svc  --> to NodePort...change targetPort to 8080
+18 copy simplewebapp-kube-ingress.yaml from github/ simplewebapp folder...edit it
+19 change DNS -->  https://www.cloudflare.com/a/login
